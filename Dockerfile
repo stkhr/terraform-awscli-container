@@ -13,6 +13,7 @@ RUN apk -U add \
     groff \
     py-pip \
     wget && \
+    curl -o /usr/bin/jq -L https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 && chmod +x /usr/bin/jq && \
     pip install awscli && \
     rm -rf /var/cache/apk/*
 
