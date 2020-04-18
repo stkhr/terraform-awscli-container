@@ -2,7 +2,7 @@ FROM alpine:latest
 
 LABEL maintainer stkhr
 
-ENV TERRAFORM_VERSION=0.12.0
+ENV TERRAFORM_VERSION=0.12.24
 
 RUN apk -U add \
     ca-certificates \
