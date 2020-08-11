@@ -2,13 +2,15 @@ FROM alpine:latest
 
 LABEL maintainer stkhr
 
-ENV TERRAFORM_VERSION=0.12.24
+ENV TERRAFORM_VERSION=0.13.0
 
 RUN apk -U add \
     ca-certificates \
     git \
     openssh \
     python3 \
+    python3-dev \
+    py3-pip \
     curl \
     groff \
     wget && \
