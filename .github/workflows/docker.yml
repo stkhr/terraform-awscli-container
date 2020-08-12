@@ -15,9 +15,19 @@ jobs:
     - name: Build the Docker image
       run: docker build --build-arg TF_VER=${tf_version} -t stkhr/terraform-awscli:${tf_version} .
     - name: Push to Docker Hub
-      uses: docker/build-push-action@v1
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-        repository: stkhr/terraform-awscli
-        tags: ${tf_version}
+      env:
+        USER: ${{ secrets.DOCKER_USER }}
+        PASS: ${{ secrets.DOCKER_PASSWORD }}
+      run: |
+        docker login -u ${USER} -p ${PASS}
+        docker push stkhr/terraform-awscli:${tf_version}
+    - name: Slack Notification
+      if: always()
+      uses: rtCamp/action-slack-notify@master
+      env:
+        SLACK_CHANNEL: "#develop"
+        SLACK_ICON: https://github.com/rtCamp.png?size=48
+        SLACK_MESSAGE: "terraform version ${tf_version}"
+        SLACK_TITLE: Update terraform awscli container
+        SLACK_USERNAME: monitor
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
