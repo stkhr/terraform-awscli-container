@@ -2,7 +2,7 @@ FROM alpine:latest
 
 LABEL maintainer stkhr
 
-ENV TERRAFORM_VERSION=0.13.0
+ARG TF_VER
 
 RUN apk -U add \
     ca-certificates \
@@ -18,6 +18,6 @@ RUN apk -U add \
     pip3 install awscli && \
     rm -rf /var/cache/apk/*
 
-RUN wget -q https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip -O terraform.zip && \
+RUN wget -q https://releases.hashicorp.com/terraform/${TF_VER}/terraform_${TF_VER}_linux_amd64.zip -O terraform.zip && \
     unzip terraform.zip -d /bin && \
     rm -f terraform.zip
