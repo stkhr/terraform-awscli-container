@@ -11,7 +11,7 @@ jobs:
     - name: checkout code
       uses: actions/checkout@v2
     - name: get latest terraform version
-      run: echo "::set-env name=tf_version::$( curl -sL https://releases.hashicorp.com/terraform/index.json | jq -r '.versions[].builds[].url' | awk -F \/ '{print $5}' | egrep -v "rc|alpha|beta|oci" | sort | uniq | sort -t. -k 1,1n -k 2,2n -k 3,3n | tail -1)"
+      run: echo "tf_version=$( curl -sL https://releases.hashicorp.com/terraform/index.json | jq -r '.versions[].builds[].url' | awk -F \/ '{print $5}' | egrep -v "rc|alpha|beta|oci" | sort | uniq | sort -t. -k 1,1n -k 2,2n -k 3,3n | tail -1)" >> $GITHUB_ENV
     - name: Build the Docker image
       run: docker build --build-arg TF_VER=${tf_version} -t stkhr/terraform-awscli:${tf_version} .
     - name: Push to Docker Hub
